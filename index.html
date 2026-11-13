@@ -296,9 +296,13 @@ select{font:inherit;padding:6px 8px;border-radius:10px;border:2px solid var(--li
 .foot{max-width:1180px;margin:0 auto;padding:0 18px 40px;font-size:16px;color:var(--ink2)}
 @media print{nav.tabs,.top,.sub,.row,.noprint{display:none!important} body{font-size:14pt;background:#fff;color:#000} .panel,.pq{border:none}}
 .bbc li{margin:8px 0;font-size:19px}.bbc a{font-weight:700;color:var(--sea)}
+.phub{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:9999;background:#102A43;color:#F4B740;font:700 18px/1 'Fredoka',Arial,sans-serif;padding:13px 18px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.35);border:2px solid #F4B740;opacity:.94}.phub:hover{opacity:1}@media print{.phub{display:none}}
+body{padding-bottom:76px}body:has(.lt-run) .phub{display:none}
 </style>
 </head>
 <body>
+<a href="https://geographyhub.github.io/Peckham_Hub/#geography" class="phub" aria-label="Back to the Peckham Hub geography year groups">&#8592; Peckham Hub</a>
+
 <header class="top">
   <svg class="contours" viewBox="0 0 1200 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <g fill="none" stroke="#E8955A" stroke-width="1.6">
