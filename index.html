@@ -362,7 +362,7 @@ const AUTUMN_IDEAS = {t1:['1a','1b'],t2:['2a']};
 function go(view,sub){ location.hash = sub? `${view}/${sub}` : view; }
 window.addEventListener('hashchange',render);
 function tabs(view){
-  const items=[['autumn','Autumn Assessment revision','assess'],...TOPICS.map(t=>[t.id,`<span class="num">${t.num}</span>${t.title}`,'']),['skills','Skills and map work','']];
+  const items=[['autumn','Autumn Assessment revision','assess'],...TOPICS.map(t=>[t.id,`<span class="num">${t.num}</span>${t.title}`,'']),['skills','Skills and map work',''],['wordbank','Word bank','']];
   $('#tabs').innerHTML = items.map(([id,label,cls])=>`<button class="tab ${cls}" ${view===id?'aria-current="page"':''} onclick="go('${id}')">${label}</button>`).join('');
 }
 function render(){
@@ -372,6 +372,7 @@ function render(){
   if(view==='home') renderHome(app);
   else if(view==='autumn') renderAutumn(app,sub||'watch');
   else if(view==='skills') renderSkills(app,sub||'compass');
+  else if(view==='wordbank') renderWordBank(app);
   else { const t=TOPICS.find(x=>x.id===view); if(t) renderTopic(app,t,sub||'notes'); else renderHome(app); }
   window.scrollTo({top:0});
 }
@@ -423,7 +424,7 @@ function renderTopic(app,t,sub){
   const on=AUTUMN_IDEAS[t.id]||[];
   const rundown=`<h3 style="font-size:26px">What's covered</h3><div class="rundown" style="margin-bottom:26px">${t.rundown.map(([c,h,p])=>`<button class="rd" onclick="const d=document.getElementById('n-${c}');d.open=true;d.scrollIntoView({behavior:'smooth'})"><b class="code">${c}</b>${on.includes(c)?'<span class="ontest">On the autumn assessment</span>':''}<h4>${h}</h4><p>${p}</p></button>`).join('')}</div>`;
   app.innerHTML = hero(t)
-   + subnav([['notes','Notes'],['flash','Flashcards'],['words','Word bank'],['quiz','Multiple choice'],['practice','Practice questions']],sub,t.id)
+   + subnav([['notes','Notes'],['flash','Flashcards'],['quiz','Multiple choice'],['practice','Practice questions']],sub,t.id)
    + '<div id="body"></div>';
   const body=$('#body');
   if(sub==='notes'){
@@ -432,7 +433,7 @@ function renderTopic(app,t,sub){
       t.notes.map(([c,h,html])=>`<details class="note" id="n-${c}"><summary><span class="code">${c}</span><h3>${h}</h3>${on.includes(c)?'<span class="ontest">On the autumn assessment</span>':''}</summary><div class="notebody">${fillTokens(html)}</div></details>`).join('');
   }
   if(sub==='flash') flashcards(body,D.flash[t.id],t.id,t.title);
-  if(sub==='words') wordbank(body,t.id);
+  if(sub==='words') { go('wordbank'); return; }
   if(sub==='quiz') quiz(body,D.mcq[t.id],t.id);
   if(sub==='practice') practice(body,D.practice[t.id]);
 }
@@ -1113,6 +1114,15 @@ render();
   function tick(ts){ if(t0===null)t0=ts; lam0=-60+((ts-t0)/1000)*12; draw(); requestAnimationFrame(tick); }
   if(still) draw(); else requestAnimationFrame(tick);
 })();
+</script>
+<script>
+
+function renderWordBank(app){
+  app.className='skills';
+  app.innerHTML=`<section class="hero" style="background:var(--contour)"><div class="in"><div class="kick" style="color:#fff">Key words</div><h2>Word bank</h2><p class="eq">Every key word from every topic, with a picture and its meaning. Tap a topic number to see just that topic, or search for a word.</p></div></section><div id="body"></div>`;
+  wordbank($('#body'));
+}
+
 </script>
 </body>
 </html>
